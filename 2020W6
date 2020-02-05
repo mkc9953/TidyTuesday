@@ -1,0 +1,47 @@
+
+#  Tidy  Tuesday 020420 -- NFL Data
+
+attendance <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/attendance.csv')
+standings <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/standings.csv')
+games <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
+
+library(readr)
+library(tidyr)
+library(ggplot2)
+library(viridis)
+library(patchwork)
+
+
+Off_Def_Wins <- dplyr::select(standings, wins, offensive_ranking, defensive_ranking)
+
+
+Offense <- ggplot(Off_Def_Wins, aes(offensive_ranking, wins)) 
+              
+
+p1 <- Offense + 
+  geom_hline(yintercept = 8, color = 'grey' )+
+  geom_vline(xintercept = 0, color = 'grey' )+
+  geom_point(aes(color = wins), show.legend = F)+
+  geom_smooth(method = 'lm', color = 'black')+
+  stat_cor(method = 'spearman', label.x = 6, label.y = 3)+
+  labs(title = "Number of Wins by Offense Ranking", x = "Rank of Team's Offense", y = "Number of Wins " )+
+  scale_color_viridis_c()+
+  theme_classic(base_size = 16)
+  
+p1
+
+
+Defense <-  ggplot(Off_Def_Wins, aes(defensive_ranking, wins))
+
+p2 <- Defense + 
+  geom_hline(yintercept = 8, color = 'grey' )+
+  geom_vline(xintercept = 0, color = 'grey' )+
+  geom_point(aes(color = wins))+
+  geom_smooth(method = 'lm', color = 'black')+
+  stat_cor(method = 'spearman', label.x = 3.5, label.y = 2.5)+
+  labs(title = "Number of Wins by Defense Ranking", x = "Rank of Team's Defense", y = "" )+
+  scale_color_viridis_c()+
+  theme_classic(base_size = 16)
+
+
+p1 + p2
