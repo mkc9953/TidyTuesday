@@ -36,7 +36,7 @@ Defense <-  ggplot(Off_Def_Wins, aes(defensive_ranking, wins))
 p2 <- Defense + 
   geom_hline(yintercept = 8, color = 'grey' )+
   geom_vline(xintercept = 0, color = 'grey' )+
-  geom_point(aes(color = wins))+
+  geom_point(aes(color = wins))+ 
   geom_smooth(method = 'lm', color = 'black')+
   stat_cor(method = 'spearman', label.x = 3.5, label.y = 2.5)+
   labs(title = "Number of Wins by Defense Ranking", x = "Rank of Team's Defense", y = "" )+
